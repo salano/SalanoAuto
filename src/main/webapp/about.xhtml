@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="layout/template.xhtml">
+            <ui:define name="content">
+                <h:form id="aboutForm">
+                    <p:growl id="aboutMessage" />
+                    <br />
+
+                    <p:accordionPanel>
+
+                        <p:ajax event="tabChange" update=":aboutForm:aboutMessage" listener="#{aboutViewController.tabChangeHandler}" />
+                        <p:tab title="About">
+                            Salano auto sales is a great company
+                        </p:tab>
+                        <p:tab title="Contact">
+                            Contact Information about the company
+                        </p:tab>
+                        <p:tab title="Map">
+                            Where to find the Company
+                        </p:tab>
+                    </p:accordionPanel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

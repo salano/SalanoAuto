@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="layout/template.xhtml">
+            <ui:define name="content">
+                <h:form id="automobileForm">
+                    <p:notificationBar position="top" effect="slide" widgetVar="bar">
+                        <h:outputText value="Toggled Successfully" style="font-size: 36px;"/>
+                        <p:commandButton value="Hide" onclick="PF('bar').hide();" type="button" icon="ui-icon-arrow-1-n" />
+                    </p:notificationBar>
+                    <p:panel header="Salano Auto Sales"  toggleable="true" closable="true"
+                             closeTitle="Close">
+                        Welcome to Salano Auto Sales. We have a great selection for high quality premium vehicles at unbelievable low prices.
+                        <p:graphicImage library="images" name="auto-1.jpg"
+                                        width="125" height="100" />
+                        <p:fieldset legend="Car" toggleSpeed="300" toggleable="true">
+                            <p:panelGrid columns="2">
+                                <p:graphicImage library="images" name="car.jpg"
+                                                width="125" height="100" />
+                                <h:outputText value="High Quality Cars" />
+                            </p:panelGrid>
+                            <p:commandButton value="View Cars" ajax="false" 
+                                             action="#{mainViewController.navigateToCar()}" />
+                        </p:fieldset>
+                        <p:fieldset legend="Pickup" toggleSpeed="300" toggleable="true">
+                            <p:panelGrid columns="2">
+                                <p:graphicImage library="images" name="pickup_truck.jpg"
+                                                width="125" height="100" />
+                                <h:outputText value="High Quality Trucks" />
+                            </p:panelGrid>
+                            <p:commandButton value="View Trucks" ajax="false" 
+                                             action="#{mainViewController.navigateToPickup()}" />
+                        </p:fieldset>
+                        <p:fieldset legend="SUV" toggleSpeed="300" toggleable="true">
+                            <p:ajax event="toggle" onsuccess="PF('bar').show();" />
+                            <p:panelGrid columns="2">
+                                <p:graphicImage library="images" name="suv.jpg"
+                                                width="125" height="100" />
+                                <p:scrollPanel mode="native" style="width: 500px; height: 100px">
+                                    <h:outputText value="High Quality SUVs" />
+                                    <br />
+                                    <h:outputText value="High Quality SUVs" />
+                                    <br />
+                                    <h:outputText value="High Quality SUVs" />
+                                    <br />
+                                    <h:outputText value="High Quality SUVs" />
+                                    <br />
+                                    <h:outputText value="High Quality SUVs" />
+                                    <br />
+                                    <h:outputText value="High Quality SUVs" />
+                                    <br />
+                                    <h:outputText value="High Quality SUVs" />
+                                    <br />
+                                </p:scrollPanel>
+                            </p:panelGrid>
+                            <p:commandButton value="View SUVs" ajax="false" 
+                                             action="#{mainViewController.navigateToSUV()}" />
+                        </p:fieldset>
+                    </p:panel>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
