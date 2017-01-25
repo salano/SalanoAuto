@@ -11,6 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -122,15 +125,33 @@ public class User {
     }
     @Id @GeneratedValue
     private BigDecimal id;
+    @Size(min=2, message="You must specify a valid first name")
     @Column(name = "first_name")
     private String firstname;
+     @Size(min=2, message="You must specify a valid last name")
     @Column(name = "last_name")
     private String lastname;
+     @Min(value=18, message="You must be over 18 years of age")
     private int age;
+    @Pattern(regexp="[\\w\\.-]*[a-zA-Z0-9_]@[\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]", message="The email address of ${validatedValue} is not in the correct format")
     private String email;
     private Boolean newsletter;
     @Column(name = "email_notification")
     private Boolean emailNotification;
     @Column(name = "enable_notification")
     private Boolean enableNotification;
+
+    /**
+     * @return the id
+     */
+    public BigDecimal getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(BigDecimal id) {
+        this.id = id;
+    }
 }
