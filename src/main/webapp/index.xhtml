@@ -8,6 +8,9 @@
     <h:head>
         <title>Facelet Title</title>
     </h:head>
+    <f:metadata>
+        <f:viewAction action="#{automobileController.loadAutomobiles()}" />
+    </f:metadata>
     <h:body>
         <ui:composition template="layout/template.xhtml">
             <ui:define name="content">
@@ -21,6 +24,23 @@
                         Welcome to Salano Auto Sales. We have a great selection for high quality premium vehicles at unbelievable low prices.
                         <p:graphicImage library="images" name="auto-1.jpg"
                                         width="125" height="100" />
+                        <br />
+                        <p:carousel headerText="Salano Deals" numVisible="2" effect="slide"
+                                    circular="true"  value="#{automobileController.automobiles}" var="auto" >
+                            <p:graphicImage library="images" name="car.jpg"
+                                            width="125" height="100" />
+                            <p:panelGrid columns="2">
+                                <h:outputLabel for="make" value="Make: " />
+                                <h:outputText id="make" value="#{auto.make}" />
+                                <h:outputLabel for="model" value="Model: " />
+                                <h:outputText id="model" value="#{auto.model}" />
+                                <h:outputLabel for="year" value="Year: " />
+                                <h:outputText id="year" value="#{auto.yearMade}" />
+                            </p:panelGrid>
+                            <h:outputLabel for="description" value="Description: " />
+                            <h:inputTextarea id="description" readonly="true" value="#{auto.description}" cols="30" rows="3" />           
+                        </p:carousel>
+
                         <p:fieldset legend="Car" toggleSpeed="300" toggleable="true">
                             <p:panelGrid columns="2">
                                 <p:graphicImage library="images" name="car.jpg"
