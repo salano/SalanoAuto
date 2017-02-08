@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -25,7 +26,7 @@ import org.primefaces.event.FlowEvent;
  */
 @Named(value = "userRegistrationController")
 @ViewScoped
-public class UserRegistrationController implements Serializable{
+public class UserRegistrationController implements Serializable {
 
     /**
      * Creates a new instance of UserRegistrationController
@@ -37,14 +38,21 @@ public class UserRegistrationController implements Serializable{
     private LazyUserModel userModel;
 
     public List<User> getUserList() {
+        if (userList == null) {
+            this.populateUsers();
+            System.out.println("Here");
+        }
+
         return userList;
     }
 
     public void setUserList(List<User> userList) {
         this.userList = userList;
     }
+
     public UserRegistrationController() {
     }
+
     public User getCurrent() {
         System.out.println(": 0");
         if (current == null) {
@@ -66,21 +74,23 @@ public class UserRegistrationController implements Serializable{
         } else {
             return event.getNewStep();
         }
-        
+
     }
-    
-    public String create(){
+
+    public String create() {
         int userCount = ejbfacade.findAll().size();
         current.setId(BigDecimal.valueOf(userCount + 1));
         ejbfacade.create(current);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-        "Successful User Entry", "Successful User entry"));
+                "Successful User Entry", "Successful User entry"));
         return null;
     }
-    public String populateUsers(){
-        userModel = new LazyUserModel(ejbfacade.findAll());
+
+    public void populateUsers() {
+        //userModel = new LazyUserModel(ejbfacade.findAll());
         //this.setUserList(ejbfacade.findAll());
-        return null;
+        this.userList = ejbfacade.findAll();
+        //this.setUserList(ejbfacade.findAll());
     }
 
     /**
@@ -90,5 +100,13 @@ public class UserRegistrationController implements Serializable{
         userModel = new LazyUserModel(ejbfacade.findAll());
         System.out.println(userModel);
         return userModel;
+    }
+
+    public void rowEditAction(RowEditEvent event) {
+        User object = (User) event.getObject();
+        ejbfacade.edit(object);
+        FacesMessage message = new FacesMessage("Row successfully updated for user Id:" + object.getId());
+        FacesContext.getCurrentInstance().addMessage(null, message);
+
     }
 }

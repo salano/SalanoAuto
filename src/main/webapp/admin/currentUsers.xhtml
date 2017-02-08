@@ -7,47 +7,69 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
-        <f:metadata>
-            <f:viewAction action="#{userRegistrationController.populateUsers}" /> 
-        </f:metadata>
+
     </h:head>
     <h:body>
+        
         <ui:composition template="../layout/template.xhtml">
             <ui:define name="content">
                 <h1>Current Registered Users</h1>
                 <f:view>
-                    <h:form>
+                    <h:form id="currentUserForm">
+                        <p:growl id="currentUserMessages" />
                         <br />                       
-                        <p:dataTable value="#{userRegistrationController.userModel}" var="item" lazy="true">
-                            <p:column>
+                        <p:dataTable value="#{userRegistrationController.userList}" var="item" lazy="true" editable="true"
+                                     resizableColumns="true" draggableColumns="true" draggableRows="true">
+                            <p:ajax event="rowEdit" listener="#{userRegistrationController.rowEditAction}"
+                                    update=":currentUserForm:currentUserMessages"/>
+                            <p:column headerText="Edit">
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column sortBy="#{item.id}">
                                 <f:facet name="header">
                                     <h:outputText value="Id"/>
                                 </f:facet>
                                 <h:outputText value="#{item.id}"/>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Firstname"/>
-                                </f:facet>
-                                <h:outputText value="#{item.firstname}"/>
+                            <p:column id="first" headerText="first name" sortBy="#{item.firstname}">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{item.firstname}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="firstname" value="#{item.firstname}"/>
+                                    </f:facet>
+                                </p:cellEditor>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Lastname"/>
-                                </f:facet>
-                                <h:outputText value="#{item.lastname}"/>
+                            <p:column id="last" headerText="last name">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{item.lastname}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="lasttname" value="#{item.lastname}"/>
+                                    </f:facet>
+                                </p:cellEditor>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Age"/>
-                                </f:facet>
-                                <h:outputText value="#{item.age}"/>
+                            <p:column id="age" headerText="age">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{item.age}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="userage" value="#{item.age}"/>
+                                    </f:facet>
+                                </p:cellEditor>
                             </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Email"/>
-                                </f:facet>
-                                <h:outputText value="#{item.email}"/>
+                            <p:column id="email" headerText="email">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{item.email}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText id="emailInput" value="#{item.email}"/>
+                                    </f:facet>
+                                </p:cellEditor>
                             </p:column>
 
 
