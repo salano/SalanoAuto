@@ -12,11 +12,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
 
@@ -108,5 +109,19 @@ public class UserRegistrationController implements Serializable {
         FacesMessage message = new FacesMessage("Row successfully updated for user Id:" + object.getId());
         FacesContext.getCurrentInstance().addMessage(null, message);
 
+    }
+    
+    public void saveUser(ActionEvent ae){
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        if(current.getAge() > 18){
+            ejbfacade.edit(current);
+            requestContext.addCallbackParam("age", true);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "User Updated", null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }else{
+            requestContext.addCallbackParam("age", false);
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Age", null);
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
     }
 }

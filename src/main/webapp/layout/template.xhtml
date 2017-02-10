@@ -8,7 +8,8 @@
     <h:head>
         <title>Facelet Title</title>
     </h:head>
-    <h:body>      
+    <h:body>   
+
         <p:layout fullPage="true">
             <p:ajax event="resize" listener="#{mainViewController.layoutResizeEvent}"/>
             <p:layoutUnit position="north" resizable="true">
@@ -19,7 +20,11 @@
             </p:layoutUnit>
             <p:layoutUnit header="Information" position="east" closable="true" resizable="true"
                           size="150">
-                N/A
+                <h:form>
+                    <p:commandButton actionListener="#{pollController.invokePoll()}" value="Poll">
+                        <p:ajax event="dialogReturn" listener="#{pollController.handleReturn}" />
+                    </p:commandButton>
+                </h:form>
             </p:layoutUnit>
             <p:layoutUnit header="Menu" position="west" collapsible="true" resizable="true"
                           size="150">

@@ -10,15 +10,24 @@
 
     </h:head>
     <h:body>
-        
+
         <ui:composition template="../layout/template.xhtml">
             <ui:define name="content">
+                <script>
+                    function validateAge(xhr, status, args) {
+                        if(args){
+                            if(args.age){
+                                PF('userDialog').hide();
+                            }
+                        }
+                    }
+                </script>
                 <h1>Current Registered Users</h1>
-                <f:view>
+               
                     <h:form id="currentUserForm">
                         <p:growl id="currentUserMessages" />
                         <br />                       
-                        <p:dataTable value="#{userRegistrationController.userList}" var="item" lazy="true" editable="true"
+                        <p:dataTable id="RegisterUserList" value="#{userRegistrationController.userList}" var="item" lazy="true" editable="true"
                                      resizableColumns="true" draggableColumns="true" draggableRows="true">
                             <p:ajax event="rowEdit" listener="#{userRegistrationController.rowEditAction}"
                                     update=":currentUserForm:currentUserMessages"/>
@@ -71,11 +80,36 @@
                                     </f:facet>
                                 </p:cellEditor>
                             </p:column>
+                            <p:column id="detail" headerText="Detail">
+                                <p:commandButton oncomplete="PF('userDialog').show()"
+                                                 update=":currentUsersDialogForm:userDetail" title="View">
+                                    <f:setPropertyActionListener value="#{item}" target="#{userRegistrationController.current}" />
+                                </p:commandButton>
 
+                            </p:column>
 
                         </p:dataTable>
                     </h:form>
-                </f:view>
+                    <h:form id="currentUsersDialogForm">
+                        <p:dialog widgetVar="userDialog" modal="false">
+                            <p:panelGrid columns="2" id="userDetail">
+                                <h:outputLabel for="first" value="First:" />
+                                <p:inputText id="first" value="#{userRegistrationController.current.firstname}"/>
+
+                                <h:outputLabel for="last" value="Last:" />
+                                <p:inputText id="last" value="#{userRegistrationController.current.lastname}"/>
+
+                                <h:outputLabel for="age_1" value="Age" />
+                                <p:spinner id="age_1" value="#{userRegistrationController.current.age}"/>
+                                <p:commandButton id="save" value="Save" oncomplete="validateAge(xhr, status, args)"
+                                                 update=":currentUserForm:currentUserMessages, :currentUserForm:RegisterUserList"
+                                                 actionListener="#{userRegistrationController.saveUser}" />
+
+                            </p:panelGrid>
+
+                        </p:dialog>
+                    </h:form>
+              
 
             </ui:define>
         </ui:composition>
